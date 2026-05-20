@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Наші особливі моменти 💖</title>
+
+  <!-- Шрифт -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --color-soft: #ffc7c7;
+      --color-accent: #ff6b8a;
+      --shadow: 0 10px 30px rgba(255, 107, 138, 0.18);
+      --text-shadow: 0 2px 10px #ffc7c7(255, 255, 255, 0.7);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Comfortaa", sans-serif;
+       background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url("завантаження.gif") center center / cover no-repeat scroll;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    /* Заголовки */
+    .title {
+     font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--color-soft);
+      text-shadow: var(--text-shadow);
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-shadow: var(--text-shadow);
+      line-height: 1.4;
+      margin-bottom: 18px;
+    }
+
+    /* Картки */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(220px, 1fr));
+      gap: 18px;
+      justify-content: center;
+    }
+
+    .flip-card {
+      width: 100%;
+      max-width: 320px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      inset: 0;
+      border-radius: 28px;
+      overflow: hidden;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    /* Передня сторона */
+    .flip-card-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Задня сторона */
+    .flip-card-back {
+      background: rgba(255,255,255,0.92);
+      border: 2px solid var(--color-accent);
+      transform: rotateY(180deg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+    }
+
+    .flip-card-back p {
+      color: var(--color-accent);
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    /* Нижня кнопка */
+    .bottom-button {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .btn {
+      border: 2px solid var(--color-accent);
+      background: var(--color-soft);
+      color: var(--color-accent);
+      font-family: "Comfortaa", sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 16px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(255,107,138,0.15);
+      transition: all 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 18px rgba(255,107,138,0.25);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 28px 16px;
+      }
+
+      .title {
+        font-size: 1.6rem;
+      }
+
+      .subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 28px;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+        justify-items: center;
+      }
+
+      .flip-card {
+        max-width: 100%;
+      }
+
+      .flip-card-inner {
+        aspect-ratio: auto;
+        min-height: auto;
+      }
+
+      .flip-card-front img {
+        height: auto;
+      }
+
+      .flip-card-back {
+        padding: 22px;
+      }
+
+      .flip-card-back p {
+        font-size: 0.95rem;
+        line-height: 1.7;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <h1 class="title">Забуті (слава богу) милі моменти💖</h1>
+    <p class="subtitle">
+      Знайшла в себе в галереї пару фото. Натискай на них, вони з описом ✨
+    </p>
+
+    <div class="gallery">
+
+      <!-- Картка 1 -->
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="карти.jpg" alt="Фото 1">
+          </div>
+          <div class="flip-card-back">
+            <p>Пам'ятаю, на початку відносин ми дуже багато грали в карти. Це мило, ми не могли придумати бажання одне одному. Скажи чесно, ти дійсно погано грав чи піддавався?</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Картка 2 -->
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="малюнки.jpg" alt="Фото 2">
+          </div>
+          <div class="flip-card-back">
+            <p>Ти чомусь соромився свого малювання, хоча воно в тебе не погане (зі мною порівнювати не треба, гора еверест на фоні мене..). Тоді ми трохи часто сварилися, ти часто приходив забирати мене після уроків малювання. Це один із таких днів</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Картка 3 -->
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="з марією.jpg" alt="Фото 3">
+          </div>
+          <div class="flip-card-back">
+            <p>Я чесно не пам'ятаю за яких умов було зняте це фото, але здється тоді ми до 11 сиділи біля магаза, лол, ти напевно получив. Зараз я б так нізащо не зробила</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Картка 4 -->
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="фільм.jpg" alt="Фото 4">
+          </div>
+          <div class="flip-card-back">
+            <p>Це був важкуватий час і це ледь не один нормальний момент з того періоду, хоча чесно, в мене тоді був жахливий настрій і така важкість на душі. Але фільм я досі пам'ятаю</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Картка 5 -->
+    
+
+      <!-- Картка 6 -->
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="14 лютого.jpg" alt="Фото 6">
+          </div>
+          <div class="flip-card-back">
+            <p>Хахахаха, це було прикольно. Єдиний хороший спогад з того дня (ненавиджу його всім серцем, пік моєї неадекватності, потім я почала щось розуміть)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Картка 7 -->
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="руки.jpg" alt="Фото 7">
+          </div>
+          <div class="flip-card-back">
+            <p>Милий момент, оскільки всі фото в хронології, цей найближчий і найнормальніший (хоча я крінжую з фото, ми як пара за 45, лол)</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Кнопка внизу -->
+    <div class="bottom-button">
+      <a href="next.html" class="btn">
+        дякую, що нагадала💖
+      </a>
+    </div>
+
+  </div>
+
+</body>
+</html>

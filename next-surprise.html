@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Наші спогади 💖</title>
+
+  <!-- Шрифт -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --color-soft: #ffc7c7;   /* як title-1 */
+      --color-accent: #ff6b8a; /* як title-2 */
+      --text-shadow: 0 2px 10px rgba(255,255,255,0.7);
+      --shadow: 0 8px 24px rgba(255,107,138,0.18);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Comfortaa", sans-serif;
+      background: url("phototune.ai_1778938975.png") center center / cover no-repeat fixed;
+      padding: 40px 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Один блок фото + текст */
+    .memory {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+
+    .memory img {
+      width: 320px;
+      max-width: 100%;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+    }
+
+    .memory-content {
+      flex: 1;
+    }
+
+    /* Заголовок як title-1 */
+    .memory-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-soft);
+      text-shadow: var(--text-shadow);
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+
+    /* Опис як title-2 */
+    .memory-text {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-shadow: var(--text-shadow);
+      line-height: 1.8;
+    }
+
+    /* Кнопка */
+    .bottom-button {
+      text-align: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      border: 2px solid var(--color-accent);
+      background: var(--color-soft);
+      color: var(--color-accent);
+      font-family: "Comfortaa", sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 16px 22px;
+      border-radius: 999px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(255,107,138,0.15);
+      transition: all 0.25s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 18px rgba(255,107,138,0.25);
+    }
+
+    /* Телефон */
+    @media (max-width: 768px) {
+      body {
+        padding: 28px 16px;
+      }
+
+      .memory {
+        flex-direction: column;
+        text-align: center;
+        gap: 18px;
+        margin-bottom: 36px;
+      }
+
+      .memory img {
+        width: 100%;
+        max-width: 320px;
+      }
+
+      .memory-title {
+        font-size: 1.6rem;
+      }
+
+      .memory-text {
+        font-size: 0.95rem;
+        line-height: 1.7;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Блок 1 -->
+    <section class="memory">
+      <img src="M63_HaLRGB_Apod2048.jpg" alt="Фото 1">
+
+      <div class="memory-content">
+        <h2 class="memory-title">21.05.2025</h2>
+        <p class="memory-text">
+         Це фото зняли NASA в день нашого знайомства. Ця "Пухнаста галактика" знаходиться в 26 мільйонах світлових років від нас. Символічне число, правда ж? Всесвіт нам натякав). Я думаю наша зустріч була прописана десь між цих зірок. Якщо ми дійсно улюбленці долі, то десь між тих зірок прописане і наше з тобою майбутнє. Ти найяскравіша зірка в моєму всесвіті 🌟
+        </p>
+      </div>
+    </section>
+
+    <!-- Блок 2 -->
+    <section class="memory">
+      <img src="NGC2256_Webb_1280.jpg" alt="Фото 2">
+
+      <div class="memory-content">
+        <h2 class="memory-title">26.05.2025</h2>
+        <p class="memory-text">
+          Це фото з дня початку наших стосунків. Це галактика "Cartwheel Galaxy". Знаєш, про улюбленців долі і натяки від Всесвіту я не збрехала. Після зіткнення двох галактик на шаленій швидкості і з'явилася Cartwheel Galaxy. Згадуючи всіх тих людей, хто казав про те що наші стосунки почались занадто швидко, я буду дивитись на це фото. Після їх зіткнення   з'явилися мільйони нових яскравих зірок. Нехай ці зірочки будуть символізувати наші з тобою майбутні радості і моменти щастя. Наш початок був прекрасним❤️‍🔥
+      </div>
+    </section>
+
+    <!-- Блок 3 -->
+    <section class="memory">
+      <img src="TSE2023-Comp48-2a.jpg" alt="Фото 3">
+
+      <div class="memory-content">
+        <h2 class="memory-title">12.06.2025</h2>
+        <p class="memory-text">
+          Це фото з дня нашого першого поцілунку. На ньому ідеальне сонячне затемнення. Місяць і сонце ніби зійшлись одне біля одного в ідеальний момент. Це так схоже на поцілунок. Два протилежних тіла зустрілись так близько.  Дуже символічно). Якщо я найяскравіше сонце в твоєму житті, тоді ти місяць, який в цей день прикрив мене від усього світу, тільки щоб лише самому милуватись сяйвом💫
+        </p>
+      </div>
+    </section>
+
+    <!-- Нижня кнопка -->
+    <div class="bottom-button">
+      <a href="next.html" class="btn">
+        це мило), буду знати
+      </a>
+    </div>
+
+  </div>
+
+</body>
+</html>

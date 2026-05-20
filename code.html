@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Введи наш код 💖</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --color-soft: #ffc7c7;
+      --color-accent: #ff6b8a;
+      --shadow: 0 8px 24px rgba(255, 107, 138, 0.18);
+      --text-shadow: 0 2px 10px rgba(255, 255, 255, 0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      font-family: "Comfortaa", sans-serif;
+
+      /* Такий самий фон, як на першій сторінці */
+      background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url("завантаження.gif") center center / cover no-repeat scroll;
+    }
+
+    .wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .gif-block {
+      text-align: center;
+      max-width: 220px;
+    }
+
+    .gif-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-soft);
+      text-shadow: var(--text-shadow);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .gif-block img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .keypad-box {
+      background: rgba(243, 215, 215, 0.95);
+      border-radius: 32px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 360px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .display {
+      min-height: 48px;
+      margin-bottom: 22px;
+      font-size: 2rem;
+      letter-spacing: 10px;
+      color: var(--color-accent);
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hint {
+      font-size: 0.95rem;
+      color: var(--color-accent);
+      margin-bottom: 18px;
+      line-height: 1.5;
+      min-height: 22px;
+    }
+
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .heart-btn {
+      border: none;
+      background: transparent;
+      font-size: 2.1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      line-height: 1;
+    }
+
+    .heart-btn:hover {
+      transform: scale(1.12);
+    }
+
+    .heart-btn:active {
+      transform: scale(0.95);
+    }
+
+    .heart-number {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--color-accent);
+      margin-top: 4px;
+      font-weight: 700;
+    }
+
+    .action-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .action-btn {
+      border: 2px solid var(--color-accent);
+      background: var(--color-soft);
+      color: var(--color-accent);
+      font-family: "Comfortaa", sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 16px 22px;
+      border-radius: 999px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .wrapper {
+        flex-direction: column;
+      }
+
+      .gif-block {
+        order: -1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <!-- GIF зліва -->
+    <div class="gif-block">
+      <img id="gif-image" src="kitty.gif" alt="Cute GIF" onerror="this.src='happy.gif'" />
+      <div class="gif-title">Введи нашу особливу дату 💌</div>
+    </div>
+
+    <!-- Блок з кодом -->
+    <div class="keypad-box">
+      <div class="display" id="display">♡ ♡ ♡ ♡</div>
+      <div class="hint" id="hint">введи 4 цифри</div>
+
+      <div class="keypad">
+        <button class="heart-btn" onclick="addDigit('1')">💗<span class="heart-number">1</span></button>
+        <button class="heart-btn" onclick="addDigit('2')">💗<span class="heart-number">2</span></button>
+        <button class="heart-btn" onclick="addDigit('3')">💗<span class="heart-number">3</span></button>
+
+        <button class="heart-btn" onclick="addDigit('4')">💗<span class="heart-number">4</span></button>
+        <button class="heart-btn" onclick="addDigit('5')">💗<span class="heart-number">5</span></button>
+        <button class="heart-btn" onclick="addDigit('6')">💗<span class="heart-number">6</span></button>
+
+        <button class="heart-btn" onclick="addDigit('7')">💗<span class="heart-number">7</span></button>
+        <button class="heart-btn" onclick="addDigit('8')">💗<span class="heart-number">8</span></button>
+        <button class="heart-btn" onclick="addDigit('9')">💗<span class="heart-number">9</span></button>
+
+        <button class="heart-btn" onclick="deleteLastDigit()">💞<span class="heart-number">-</span></button>
+        <button class="heart-btn" onclick="addDigit('0')">💗<span class="heart-number">0</span></button>
+        <button class="heart-btn" id="ok-btn" onclick="clearCode()">💘<span class="heart-number">✕</span></button>
+      </div>
+
+      <div class="action-row">
+        <button class="action-btn" onclick="window.location.href='index.html'">можна повернутись?</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const CORRECT_CODE = '2605';
+    let enteredCode = '';
+
+    const display = document.getElementById('display');
+    const hint = document.getElementById('hint');
+    const gifImage = document.getElementById('gif-image');
+
+    function updateDisplay() {
+      const hearts = [];
+      for (let i = 0; i < 4; i++) {
+        hearts.push(i < enteredCode.length ? '💖' : '♡');
+      }
+      display.textContent = hearts.join(' ');
+    }
+
+    function addDigit(digit) {
+      if (enteredCode.length >= 4) return;
+
+      enteredCode += digit;
+      updateDisplay();
+
+      if (enteredCode.length === 4) {
+        setTimeout(checkCode, 300);
+      }
+    }
+
+    function clearCode() {
+      enteredCode = '';
+      hint.textContent = 'введи 4 цифри';
+      updateDisplay();
+    }
+
+    function deleteLastDigit() {
+      if (enteredCode.length > 0) {
+        enteredCode = enteredCode.slice(0, -1);
+        updateDisplay();
+      }
+    }
+
+    function checkCode() {
+      if (enteredCode.length !== 4) return;
+
+      if (enteredCode === CORRECT_CODE) {
+        hint.textContent = 'правильно! 💖';
+
+        // Тут буде перехід на наступну сторінку.
+        // Заміни "next.html" на назву своєї наступної сторінки.
+        setTimeout(() => {
+          window.location.href = 'next.html';
+        }, 800);
+      } else {
+        hint.textContent = 'неправильний код 🥺';
+        gifImage.src = 'sad.gif';
+        setTimeout(() => {
+          gifImage.src = 'happy.gif';
+          clearCode();
+        }, 1200);
+      }
+    }
+
+    updateDisplay();
+  </script>
+</body>
+</html>
+
