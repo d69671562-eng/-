@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вгадай фразу 💖</title>
+
+  <!-- Милий шрифт -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --color-soft: #ffc7c7;
+      --color-accent: #ff6b8a;
+      --text-shadow: 0 2px 10px rgba(255,255,255,0.7);
+      --shadow: 0 8px 24px rgba(255,107,138,0.18);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Comfortaa", sans-serif;
+      background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url("завантаження.gif") center center / cover no-repeat scroll;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .game-box {
+      width: 100%;
+      max-width: 700px;
+      text-align: center;
+    }
+
+    .title {
+     font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--color-soft);
+      text-shadow: var(--text-shadow);
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+        font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-shadow: var(--text-shadow);
+      line-height: 1.4;
+      margin-bottom: 28px;
+    }
+
+    /* Поле з літерами */
+     .phrase {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 8px;
+      margin-bottom: 30px;
+    }
+
+    .letter {
+      width: 38px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.85);
+      border: 2px solid var(--color-accent);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      text-transform: uppercase;
+    }
+
+    .space {
+      width: 18px;
+      border: none;
+      background: transparent;
+    }
+
+    /* Поле вводу */
+    .input-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    input {
+      width: 80px;
+      text-align: center;
+      font-size: 1.4rem;
+      padding: 12px;
+      border-radius: 999px;
+      border: 2px solid var(--color-accent);
+      outline: none;
+      font-family: "Comfortaa", sans-serif;
+      color: var(--color-accent);
+      text-transform: uppercase;
+    }
+
+    .btn {
+      border: 2px solid var(--color-accent);
+      background: var(--color-soft);
+      color: var(--color-accent);
+      font-family: "Comfortaa", sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 16px 22px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .message {
+      min-height: 24px;
+      color: var(--color-accent);
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    /* Перемога */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255,255,255,0.35);
+      backdrop-filter: blur(4px);
+      z-index: 20;
+      padding: 24px;
+    }
+
+    .overlay-box {
+      background: rgba(255,255,255,0.9);
+      border-radius: 28px;
+      padding: 28px 24px;
+      text-align: center;
+      max-width: 360px;
+      width: 100%;
+    }
+
+    .overlay-box h2 {
+      color: var(--color-accent);
+      margin-bottom: 12px;
+    }
+
+    .overlay-box p {
+      color: var(--color-accent);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .letter {
+        width: 30px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+
+      input {
+        width: 70px;
+      }
+
+      .title {
+        font-size: 1.5rem;
+      }
+
+      .subtitle {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="game-box">
+    <h1 class="title">Вгадай особливу фразу 💖</h1>
+    <p class="subtitle">
+      Вводь по одній літері, щоб відкрити всі слова ✨
+    </p>
+
+    <div class="phrase" id="phrase"></div>
+
+    <div class="input-row">
+      <input
+        type="text"
+        id="letterInput"
+        maxlength="1"
+        autocomplete="off"
+      >
+      <button class="btn" onclick="guessLetter()">
+        перевірити
+      </button>
+    </div>
+
+    <div class="message" id="message"></div>
+  </div>
+
+  <!-- Перемога -->
+  <div class="overlay" id="winOverlay">
+    <div class="overlay-box">
+      <h2>Ти відгадав фразу! 🥰</h2>
+      <p>Тепер я тобі дещо нагадаю 💌</p>
+      <button class="btn" onclick="goToLetter()">
+       здивуй)
+      
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const phrase = "ТИ МОЄ НАЙБІЛЬШЕ ЩАСТЯ";
+    const guessedLetters = new Set([" "]);
+
+    const phraseContainer = document.getElementById("phrase");
+    const input = document.getElementById("letterInput");
+    const message = document.getElementById("message");
+    const winOverlay = document.getElementById("winOverlay");
+
+    function renderPhrase() {
+      phraseContainer.innerHTML = "";
+
+      for (const char of phrase) {
+        const box = document.createElement("div");
+
+        if (char === " ") {
+          box.className = "space";
+        } else {
+          box.className = "letter";
+          box.textContent = guessedLetters.has(char) ? char : "";
+        }
+
+        phraseContainer.appendChild(box);
+      }
+
+      checkWin();
+    }
+
+    function guessLetter() {
+      let letter = input.value.toUpperCase().trim();
+
+      if (!letter) return;
+
+      if (guessedLetters.has(letter)) {
+        message.textContent = "Цю літеру ти вже вводив 💕";
+        input.value = "";
+        return;
+      }
+
+      guessedLetters.add(letter);
+
+      if (phrase.includes(letter)) {
+        message.textContent = "Правильно! ✨";
+      } else {
+        message.textContent = "Такої літери немає 🥺";
+      }
+
+      input.value = "";
+      renderPhrase();
+      input.focus();
+    }
+
+    function checkWin() {
+      const won = [...phrase]
+        .filter(char => char !== " ")
+        .every(char => guessedLetters.has(char));
+
+      if (won) {
+        setTimeout(() => {
+          winOverlay.style.display = "flex";
+        }, 500);
+      }
+    }
+
+    function goToLetter() {
+      // Заміни на назву сторінки з листом
+      window.location.href = "love-photo.html";
+    }
+
+    // Натискання Enter
+    input.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        guessLetter();
+      }
+    });
+
+    renderPhrase();
+    input.focus();
+  </script>
+
+</body>
+</html>
