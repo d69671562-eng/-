@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html lang="uk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Збери 26 сердечок 💖</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap" rel="stylesheet" />
 
 <style>
 :root {
   --color-soft: #ffc7c7;
   --color-accent: #ff6b8a;
-  --text-shadow: 0 2px 10px #ff6b8a(255,255,255,0.7);
+  --color-paper: #ffe4ec;
+  --text-shadow: 0 2px 10px #ff6b8a;
+  --box-shadow: 0 12px 35px #ffc7c7;
+}
+.win-gif {
+  display: block;
+  width: 100%;
+  max-width: 180px;
+  margin: 0 auto 20px;
+  border-radius: 18px;
 }
 
 * {
@@ -33,7 +42,7 @@ body {
   align-items: center;
   background:
     linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-    url("завантаження.gif") center center / cover no-repeat;
+    url("завантаження.gif") center center / cover no-repeat fixed;
 }
 
 .game-wrapper {
@@ -47,18 +56,18 @@ canvas {
   display: block;
   width: 100%;
   height: 100%;
-  background: transparent;
 }
 
+/* ===== HUD ===== */
 .hud {
   position: absolute;
-  top: 14px;
+  top: 8px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  width: 92%;
   text-align: center;
+  z-index: 10;
   pointer-events: none;
-  width: 90%;
 }
 
 .score {
@@ -66,48 +75,50 @@ canvas {
   font-weight: 700;
   color: var(--color-soft);
   text-shadow: var(--text-shadow);
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 
 .hint {
-  font-size: 1.4rem;
+  font-size: 1.15rem;
   font-weight: 600;
+  line-height: 1.4;
   color: var(--color-accent);
   text-shadow: var(--text-shadow);
 }
 
+/* ===== ВІКНО ПЕРЕМОГИ ===== */
 .overlay {
   position: absolute;
   inset: 0;
   display: none;
   justify-content: center;
   align-items: center;
-  /*background: rgba(255,255,255,0.55);*/
   z-index: 20;
   padding: 20px;
 }
 
 .overlay-box {
-  /*background: rgba(255,255,255,0.95);*/
-  background: #ffc7c7(255, 255, 255, 0.95); /* білий фон */
-  border: 3px solid #ff6b8a;             /* біла рамка */
+  background: var(--color-paper);
+  border: 3px solid var(--color-accent);
   border-radius: 28px;
   padding: 28px 24px;
   text-align: center;
   width: 100%;
   max-width: 320px;
-  /*box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);*/
-  }
+  box-shadow: var(--box-shadow);
+}
 
 .overlay-box h2 {
-  color: var(--color-soft);
+  color: var(--color-accent);
   margin-bottom: 16px;
+  line-height: 1.4;
 }
 
 .overlay-box p {
-  color: var(--color-soft);
+  color: #d85b7f;
   margin-bottom: 20px;
   font-weight: 600;
+  line-height: 1.6;
 }
 
 .btn {
@@ -120,6 +131,21 @@ canvas {
   padding: 12px 24px;
   border-radius: 999px;
   cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.btn:hover {
+  transform: scale(1.03);
+}
+
+@media (max-width: 480px) {
+  .score {
+    font-size: 1.9rem;
+  }
+
+  .hint {
+    font-size: 1rem;
+  }
 }
 </style>
 </head>
@@ -134,24 +160,44 @@ canvas {
   <canvas id="gameCanvas"></canvas>
 
   <div class="overlay" id="winOverlay">
-    <div class="overlay-box">
-      <h2>Ти зібрала 26 сердечок! 🥰</h2>
-      <p>На тебе чекає ще один сюрприз 💌</p>
-      <button class="btn" onclick="goToNextPage()">Продовжити</button>
-    </div>
+  <div class="overlay-box">
+
+    <!-- GIF над заголовком -->
+    <img
+      src="happy.gif"
+      alt="Переможна GIF"
+      class="win-gif"
+    />
+
+    <h2>Ти зібрав 26 сердечок! 🥰</h2>
+
+    <button class="btn" onclick="goToNextPage()">
+      крутяк)
+    </button>
   </div>
+</div>
 </div>
 
 <script>
+/* ===== НАЛАШТУВАННЯ ===== */
 const TARGET_SCORE = 26;
 
+const PLATFORM_COUNT = 8;
+const PLATFORM_GAP = 150;
+const PLATFORM_WIDTH = 100;
+const PLATFORM_HEIGHT = 14;
+const MIN_HORIZONTAL_DISTANCE = 170;
+const HEART_CHANCE = 0.35;
+const TOP_SAFE_ZONE = 130;
+
+/* ===== DOM ===== */
 const scoreElement = document.getElementById("score");
 const winOverlay = document.getElementById("winOverlay");
 const wrapper = document.getElementById("gameWrapper");
-
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+/* ===== РОЗМІРИ ===== */
 let width, height;
 
 function resizeCanvas() {
@@ -161,21 +207,14 @@ function resizeCanvas() {
   canvas.height = height;
 }
 
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-/* ===== ЗОБРАЖЕННЯ ПЕРСОНАЖА =====
-   Замініть на свій файл:
-   "my-character.png"
-   "photo.jpg"
-*/
+/* ===== ЗОБРАЖЕННЯ ГРАВЦЯ ===== */
 const playerImage = new Image();
-playerImage.src = "c:\Users\Користувач\Downloads\Snoopy's Heartwarming Stickers _ Line Sticker.gif";
+playerImage.src = "snoopy.gif";
 
 /* ===== ГРАВЕЦЬ ===== */
 const player = {
-    x: 180,
-  y: 500,
+  x: 0,
+  y: 0,
   width: 60,
   height: 60,
   velocityY: 0,
@@ -188,29 +227,39 @@ const hearts = [];
 
 let score = 0;
 let gameWon = false;
-let targetX = player.x;
+let targetX = 0;
 
-/* ===== НАЛАШТУВАННЯ ГРИ ===== */
-const PLATFORM_COUNT = 9;
-const PLATFORM_GAP = 145;        // вертикальна відстань
-const PLATFORM_WIDTH = 100;
-const PLATFORM_HEIGHT = 14;
-const MIN_HORIZONTAL_GAP = 140;  // не торкаються одна одної
-const HEART_CHANCE = 0.25;       // 1 з 4 платформ має сердечко
-
+/* ===== СТВОРЕННЯ ПЛАТФОРМИ ===== */
 function createPlatform(y) {
-  let x;
-  let attempts = 0;
-  const lastPlatform = platforms[platforms.length - 1];
+  if (y < TOP_SAFE_ZONE) y = TOP_SAFE_ZONE;
 
-  do {
+  let x = 0;
+  let valid = false;
+  let attempts = 0;
+
+  while (!valid && attempts < 500) {
     x = Math.random() * (width - PLATFORM_WIDTH);
+    valid = true;
+
+    for (const platform of platforms) {
+      const verticalDistance = Math.abs(y - platform.y);
+
+      if (verticalDistance < PLATFORM_GAP + 30) {
+        const horizontalDistance = Math.abs(x - platform.x);
+
+        if (horizontalDistance < MIN_HORIZONTAL_DISTANCE) {
+          valid = false;
+          break;
+        }
+      }
+    }
+
     attempts++;
-  } while (
-    lastPlatform &&
-    Math.abs(x - lastPlatform.x) < MIN_HORIZONTAL_GAP &&
-    attempts < 100
-  );
+  }
+
+  if (!valid) {
+    x = Math.random() * (width - PLATFORM_WIDTH);
+  }
 
   const platform = {
     x,
@@ -221,6 +270,7 @@ function createPlatform(y) {
 
   platforms.push(platform);
 
+  // Максимум 1 сердечко на платформі
   if (Math.random() < HEART_CHANCE) {
     hearts.push({
       x: platform.x + platform.width / 2,
@@ -232,25 +282,29 @@ function createPlatform(y) {
   }
 }
 
-
+/* ===== ІНІЦІАЛІЗАЦІЯ ===== */
 function initGame() {
   platforms.length = 0;
   hearts.length = 0;
 
   score = 0;
-  scoreElement.textContent = score;
   gameWon = false;
 
+  scoreElement.textContent = score;
+  winOverlay.style.display = "none";
+
   for (let i = 0; i < PLATFORM_COUNT; i++) {
-    createPlatform(height - i * PLATFORM_GAP);
+    createPlatform(height - 80 - i * PLATFORM_GAP);
   }
 
   player.x = width / 2 - player.width / 2;
   player.y = height - 140;
   player.velocityY = player.jumpPower;
+
   targetX = player.x + player.width / 2;
 }
 
+/* ===== МАЛЮВАННЯ ЗАКРУГЛЕНОГО ПРЯМОКУТНИКА ===== */
 function drawRoundedRect(x, y, w, h, r) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -266,22 +320,20 @@ function drawRoundedRect(x, y, w, h, r) {
   ctx.fill();
 }
 
+/* ===== ОНОВЛЕННЯ ГРИ ===== */
 function update() {
   if (gameWon) return;
 
-  /* Горизонтальний рух */
   player.x += (targetX - (player.x + player.width / 2)) * 0.22;
 
-  /* Перехід через краї */
   if (player.x < -player.width) player.x = width;
   if (player.x > width) player.x = -player.width;
 
-  /* Фізика */
   player.velocityY += player.gravity;
   player.y += player.velocityY;
 
-  /* Зіткнення з платформами */
-  platforms.forEach(platform => {
+  // Зіткнення з платформами
+  for (const platform of platforms) {
     if (
       player.velocityY > 0 &&
       player.x + player.width > platform.x &&
@@ -290,12 +342,13 @@ function update() {
       player.y + player.height < platform.y + platform.height + 18
     ) {
       player.velocityY = player.jumpPower;
+      break;
     }
-  });
+  }
 
-  /* Збір сердечок */
-  hearts.forEach(heart => {
-    if (!heart || heart.collected) return;
+  // Збір сердечок
+  for (const heart of hearts) {
+    if (!heart || heart.collected) continue;
 
     const dx = player.x + player.width / 2 - heart.x;
     const dy = player.y + player.height / 2 - heart.y;
@@ -308,11 +361,12 @@ function update() {
 
       if (score >= TARGET_SCORE) {
         winGame();
+        return;
       }
     }
-  });
+  }
 
-  /* Скролінг вгору */
+  // Скролінг вгору
   if (player.y < height * 0.35) {
     const offset = height * 0.35 - player.y;
     player.y = height * 0.35;
@@ -329,18 +383,19 @@ function update() {
     }
   }
 
-  /* Якщо впав */
+  // Падіння
   if (player.y > height + 100) {
     initGame();
   }
 }
 
+/* ===== МАЛЮВАННЯ ===== */
 function draw() {
   ctx.clearRect(0, 0, width, height);
 
-  /* Платформи */
+  // Платформи
   ctx.fillStyle = "rgba(255, 199, 199, 0.95)";
-  platforms.forEach(platform => {
+  for (const platform of platforms) {
     drawRoundedRect(
       platform.x,
       platform.y,
@@ -348,17 +403,17 @@ function draw() {
       platform.height,
       8
     );
-  });
+  }
 
-  /* Сердечка */
+  // Сердечка
   ctx.font = "24px sans-serif";
-  hearts.forEach(heart => {
+  for (const heart of hearts) {
     if (heart && !heart.collected) {
       ctx.fillText("💖", heart.x - 12, heart.y + 8);
     }
-  });
+  }
 
-  /* Гравець */
+  // Гравець
   if (playerImage.complete && playerImage.naturalWidth > 0) {
     ctx.drawImage(
       playerImage,
@@ -373,12 +428,14 @@ function draw() {
   }
 }
 
+/* ===== ЦИКЛ ГРИ ===== */
 function loop() {
   update();
   draw();
   requestAnimationFrame(loop);
 }
 
+/* ===== ПЕРЕМОГА ===== */
 function winGame() {
   gameWon = true;
   setTimeout(() => {
@@ -390,21 +447,27 @@ function goToNextPage() {
   window.location.href = "next-page2.html";
 }
 
-/* Керування мишкою */
+/* ===== КЕРУВАННЯ ===== */
 wrapper.addEventListener("mousemove", e => {
   const rect = wrapper.getBoundingClientRect();
   targetX = e.clientX - rect.left;
 });
 
-/* Керування пальцем */
 wrapper.addEventListener("touchmove", e => {
   const rect = wrapper.getBoundingClientRect();
   targetX = e.touches[0].clientX - rect.left;
   e.preventDefault();
 }, { passive: false });
 
+/* ===== СТАРТ ===== */
+resizeCanvas();
 initGame();
 loop();
+
+window.addEventListener("resize", () => {
+  resizeCanvas();
+  initGame();
+});
 </script>
 
 </body>
