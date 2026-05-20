@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Злови 26 зірочок ⭐</title>
+
+  <!-- Милий округлий шрифт -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --color-soft: #ffc7c7;
+      --color-accent: #ff6b8a;
+      --text-shadow: 0 2px 10px rgba(255, 255, 255, 0.7);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+      font-family: "Comfortaa", sans-serif;
+      background: url("phototune.ai_1778938975.png") center center / cover no-repeat fixed;
+      touch-action: manipulation;
+      user-select: none;
+    }
+
+    /* Верхня інформація */
+    .hud {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      text-align: center;
+      width: 90%;
+      max-width: 360px;
+      pointer-events: none;
+    }
+
+    .score {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      text-shadow: var(--text-shadow);
+      margin-bottom: 6px;
+    }
+
+    .hint {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-shadow: var(--text-shadow);
+      line-height: 1.4;
+    }
+
+    /* Зірочки */
+    .star {
+      position: absolute;
+      font-size: 2.2rem;
+      cursor: pointer;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+      z-index: 5;
+    }
+
+    @keyframes fall {
+      from {
+        transform: translateY(-60px);
+      }
+      to {
+        transform: translateY(calc(100vh + 60px));
+      }
+    }
+
+    /* Екран перемоги */
+    .win-screen {
+      position: fixed;
+      inset: 0;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 20;
+      padding: 24px;
+    }
+
+    .win-box {
+      background: rgba(255, 255, 255, 0.88);
+      padding: 28px 24px;
+      border-radius: 28px;
+      text-align: center;
+      max-width: 360px;
+      width: 100%;
+    }
+
+    .win-box h2 {
+      color: var(--color-accent);
+      font-size: 1.4rem;
+      margin-bottom: 12px;
+    }
+
+    .win-box p {
+      color: var(--color-accent);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .win-gif {
+      width: 140px;
+      height: auto;
+      margin-bottom: 16px;
+      border-radius: 16px;
+    }
+
+    .btn {
+      border: 2px solid var(--color-accent);
+      background: var(--color-soft);
+      color: var(--color-accent);
+      font-family: "Comfortaa", sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      padding: 16px 22px;
+      border-radius: 999px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    @media (max-width: 480px) {
+      .score {
+        font-size: 1.4rem;
+      }
+
+      .hint {
+        font-size: 0.85rem;
+      }
+
+      .star {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Верхня інформація -->
+  <div class="hud">
+    <div class="score">⭐ <span id="score">0</span> / 26</div>
+    <div class="hint">Лови зірочки ✨</div>
+  </div>
+
+  <!-- Екран перемоги -->
+  <div class="win-screen" id="winScreen">
+    <div class="win-box">
+      <img class="win-gif" src="happy.gif" alt="happy" />
+      <h2>Ти злов всі 26 зірочок! 💖</h2>
+      <p>Можеш подивитися що я тобі підготувала? ✨</p>
+      <button class="btn" onclick="goToNextPage()">
+        звичайно)
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const TARGET_SCORE = 26;
+    let score = 0;
+    let gameFinished = false;
+
+    const scoreElement = document.getElementById("score");
+    const winScreen = document.getElementById("winScreen");
+
+    /* Створення зірочки */
+    function createStar() {
+      if (gameFinished) return;
+
+      const star = document.createElement("div");
+      star.className = "star";
+      star.textContent = "⭐";
+
+      // Випадкове положення по горизонталі
+      const maxLeft = window.innerWidth - 50;
+      star.style.left = Math.random() * maxLeft + "px";
+
+      // Випадковий розмір
+      const size = 1.6 + Math.random() * 1.4;
+      star.style.fontSize = size + "rem";
+
+      // Випадкова швидкість падіння
+      const duration = 3 + Math.random() * 3;
+      star.style.animationDuration = duration + "s";
+
+      // Клік по зірочці
+      function catchStar(event) {
+        event.preventDefault();
+
+        if (gameFinished) return;
+
+        star.remove();
+        score++;
+        scoreElement.textContent = score;
+
+        if (score >= TARGET_SCORE) {
+          finishGame();
+        }
+      }
+
+      star.addEventListener("click", catchStar);
+      star.addEventListener("touchstart", catchStar, { passive: false });
+
+      // Видалення після падіння
+      star.addEventListener("animationend", () => {
+        star.remove();
+      });
+
+      document.body.appendChild(star);
+    }
+
+    /* Завершення гри */
+    function finishGame() {
+      gameFinished = true;
+
+      // Видаляємо всі зірочки
+      document.querySelectorAll(".star").forEach(star => star.remove());
+
+      setTimeout(() => {
+        winScreen.style.display = "flex";
+      }, 500);
+    }
+
+    /* Перехід на наступну сторінку */
+    function goToNextPage() {
+      // Заміни на назву своєї наступної сторінки
+      window.location.href = "next-surprise.html";
+    }
+
+    /* Генерація зірочок */
+    const starInterval = setInterval(() => {
+      if (!gameFinished) {
+        createStar();
+      } else {
+        clearInterval(starInterval);
+      }
+    }, 700);
+  </script>
+
+</body>
+</html>
