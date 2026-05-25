@@ -3,14 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Злови 26 зірочок ⭐</title>
 
-  <!-- Милий округлий шрифт -->
+  <!-- Шрифт -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link
     href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;600;700&display=swap"
     rel="stylesheet"
+  >
+
+  <!-- Попереднє завантаження фону -->
+  <link
+    rel="preload"
+    as="image"
+    href="phototune.ai_1778938975.png"
   >
 
   <style>
@@ -31,9 +40,27 @@
       overflow: hidden;
       position: relative;
       font-family: "Comfortaa", sans-serif;
-      background: url("phototune.ai_1778938975.png") center center / cover no-repeat fixed;
       touch-action: manipulation;
       user-select: none;
+      background: #000;
+    }
+
+    /* СТАБІЛЬНИЙ ФОН */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+
+      background-image: url("phototune.ai_1778938975.png");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+
+      z-index: -1;
+
+      /* плавніше завантаження */
+      transform: translateZ(0);
+      will-change: transform;
     }
 
     /* Верхня інформація */
@@ -74,36 +101,47 @@
       animation-timing-function: linear;
       animation-fill-mode: forwards;
       z-index: 5;
+
+      /* плавність */
+      transform: translateZ(0);
+      will-change: transform;
     }
 
     @keyframes fall {
       from {
         transform: translateY(-60px);
       }
+
       to {
         transform: translateY(calc(100vh + 60px));
       }
     }
 
-    /* Екран перемоги */
+    /* ЕКРАН ПЕРЕМОГИ */
     .win-screen {
       position: fixed;
       inset: 0;
       display: none;
       justify-content: center;
       align-items: center;
+
       background: rgba(255, 255, 255, 0.35);
+
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
+
       z-index: 20;
       padding: 24px;
     }
 
     .win-box {
       background: rgba(255, 255, 255, 0.88);
+
       padding: 28px 24px;
       border-radius: 28px;
+
       text-align: center;
+
       max-width: 360px;
       width: 100%;
     }
@@ -129,19 +167,27 @@
 
     .btn {
       border: 2px solid var(--color-accent);
+
       background: var(--color-soft);
       color: var(--color-accent);
+
       font-family: "Comfortaa", sans-serif;
       font-size: 1.15rem;
       font-weight: 700;
+
       padding: 16px 22px;
+
       border-radius: 999px;
+
       cursor: pointer;
+
       text-decoration: none;
       display: inline-block;
     }
 
+    /* МОБІЛЬНА ВЕРСІЯ */
     @media (max-width: 480px) {
+
       .score {
         font-size: 1.4rem;
       }
@@ -153,65 +199,122 @@
       .star {
         font-size: 2rem;
       }
+
+      .win-box {
+        padding: 22px 18px;
+      }
+
+      .win-gif {
+        width: 110px;
+      }
+
+      .btn {
+        font-size: 0.95rem;
+        padding: 12px 18px;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- Верхня інформація -->
   <div class="hud">
-    <div class="score">⭐ <span id="score">0</span> / 26</div>
-    <div class="hint">Лови зірочки ✨</div>
+
+    <div class="score">
+      ⭐ <span id="score">0</span> / 26
+    </div>
+
+    <div class="hint">
+      Лови зірочки ✨
+    </div>
+
   </div>
 
-  <!-- Екран перемоги -->
+  <!-- ЕКРАН ПЕРЕМОГИ -->
   <div class="win-screen" id="winScreen">
+
     <div class="win-box">
-      <img class="win-gif" src="happy.gif" alt="happy" />
-      <h2>Ти злов всі 26 зірочок! 💖</h2>
-      <p>Можеш подивитися що я тобі підготувала? ✨</p>
-      <button class="btn" onclick="goToNextPage()">
+
+      <img
+        class="win-gif"
+        src="happy.gif"
+        alt="happy"
+      >
+
+      <h2>
+        Ти злов всі 26 зірочок! 💖
+      </h2>
+
+      <p>
+        Можеш подивитися що я тобі підготувала? ✨
+      </p>
+
+      <button
+        class="btn"
+        onclick="goToNextPage()"
+      >
         звичайно)
       </button>
+
     </div>
+
   </div>
 
   <script>
     const TARGET_SCORE = 26;
+
     let score = 0;
     let gameFinished = false;
 
-    const scoreElement = document.getElementById("score");
-    const winScreen = document.getElementById("winScreen");
+    const scoreElement =
+      document.getElementById("score");
+
+    const winScreen =
+      document.getElementById("winScreen");
 
     /* Створення зірочки */
     function createStar() {
+
       if (gameFinished) return;
 
       const star = document.createElement("div");
+
       star.className = "star";
       star.textContent = "⭐";
 
-      // Випадкове положення по горизонталі
-      const maxLeft = window.innerWidth - 50;
-      star.style.left = Math.random() * maxLeft + "px";
+      /* Випадкове положення */
+      const maxLeft =
+        window.innerWidth - 50;
 
-      // Випадковий розмір
-      const size = 1.6 + Math.random() * 1.4;
-      star.style.fontSize = size + "rem";
+      star.style.left =
+        Math.random() * maxLeft + "px";
 
-      // Випадкова швидкість падіння
-      const duration = 3 + Math.random() * 3;
-      star.style.animationDuration = duration + "s";
+      /* Випадковий розмір */
+      const size =
+        1.6 + Math.random() * 1.4;
 
-      // Клік по зірочці
+      star.style.fontSize =
+        size + "rem";
+
+      /* Випадкова швидкість */
+      const duration =
+        3 + Math.random() * 3;
+
+      star.style.animationDuration =
+        duration + "s";
+
+      /* Клік */
       function catchStar(event) {
+
         event.preventDefault();
 
         if (gameFinished) return;
 
         star.remove();
+
         score++;
+
         scoreElement.textContent = score;
 
         if (score >= TARGET_SCORE) {
@@ -220,41 +323,58 @@
       }
 
       star.addEventListener("click", catchStar);
-      star.addEventListener("touchstart", catchStar, { passive: false });
 
-      // Видалення після падіння
-      star.addEventListener("animationend", () => {
-        star.remove();
-      });
+      star.addEventListener(
+        "touchstart",
+        catchStar,
+        { passive: false }
+      );
+
+      /* Видалення після падіння */
+      star.addEventListener(
+        "animationend",
+        () => {
+          star.remove();
+        }
+      );
 
       document.body.appendChild(star);
     }
 
     /* Завершення гри */
     function finishGame() {
+
       gameFinished = true;
 
-      // Видаляємо всі зірочки
-      document.querySelectorAll(".star").forEach(star => star.remove());
+      /* Видаляємо всі зірочки */
+      document
+        .querySelectorAll(".star")
+        .forEach(star => star.remove());
 
       setTimeout(() => {
         winScreen.style.display = "flex";
       }, 500);
     }
 
-    /* Перехід на наступну сторінку */
+    /* Наступна сторінка */
     function goToNextPage() {
-      // Заміни на назву своєї наступної сторінки
-      window.location.href = "next-surprise.html";
+
+      window.location.href =
+        "next-surprise.html";
     }
 
     /* Генерація зірочок */
     const starInterval = setInterval(() => {
+
       if (!gameFinished) {
+
         createStar();
+
       } else {
+
         clearInterval(starInterval);
       }
+
     }, 700);
   </script>
 
