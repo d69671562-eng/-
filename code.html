@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -35,8 +34,10 @@
       padding: 24px;
       font-family: "Comfortaa", sans-serif;
 
-      /* Такий самий фон, як на першій сторінці */
-      background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url("завантаження.gif") center center / cover no-repeat scroll;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.35),
+        rgba(0, 0, 0, 0.35)),
+        url("завантаження.gif") center center / cover no-repeat scroll;
     }
 
     .wrapper {
@@ -152,51 +153,177 @@
       width: 100%;
     }
 
+    /* МОБІЛЬНА ВЕРСІЯ */
     @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
       .wrapper {
         flex-direction: column;
+        gap: 12px;
       }
 
       .gif-block {
         order: -1;
+        max-width: 150px;
+      }
+
+      .gif-title {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+        line-height: 1.3;
+      }
+
+      .gif-block img {
+        max-width: 120px;
+        border-radius: 16px;
+      }
+
+      .keypad-box {
+        max-width: 290px;
+        padding: 16px 14px;
+        border-radius: 22px;
+      }
+
+      .display {
+        min-height: 32px;
+        margin-bottom: 12px;
+        font-size: 1.4rem;
+        letter-spacing: 5px;
+      }
+
+      .hint {
+        font-size: 0.8rem;
+        margin-bottom: 12px;
+      }
+
+      .keypad {
+        gap: 8px;
+      }
+
+      .heart-btn {
+        font-size: 1.5rem;
+      }
+
+      .heart-number {
+        font-size: 0.65rem;
+        margin-top: 2px;
+      }
+
+      .action-row {
+        margin-top: 12px;
+      }
+
+      .action-btn {
+        font-size: 0.9rem;
+        padding: 10px 14px;
       }
     }
   </style>
 </head>
+
 <body>
   <div class="wrapper">
-    <!-- GIF зліва -->
+
+    <!-- GIF -->
     <div class="gif-block">
-      <img id="gif-image" src="kitty.gif" alt="Cute GIF" onerror="this.src='happy.gif'" />
-      <div class="gif-title">Введи нашу особливу дату 💌</div>
+      <img
+        id="gif-image"
+        src="kitty.gif"
+        alt="Cute GIF"
+        onerror="this.src='happy.gif'"
+      />
+
+      <div class="gif-title">
+        Введи нашу особливу дату 💌
+      </div>
     </div>
 
-    <!-- Блок з кодом -->
+    <!-- Код -->
     <div class="keypad-box">
-      <div class="display" id="display">♡ ♡ ♡ ♡</div>
-      <div class="hint" id="hint">введи 4 цифри</div>
+
+      <div class="display" id="display">
+        ♡ ♡ ♡ ♡
+      </div>
+
+      <div class="hint" id="hint">
+        введи 4 цифри
+      </div>
 
       <div class="keypad">
-        <button class="heart-btn" onclick="addDigit('1')">💗<span class="heart-number">1</span></button>
-        <button class="heart-btn" onclick="addDigit('2')">💗<span class="heart-number">2</span></button>
-        <button class="heart-btn" onclick="addDigit('3')">💗<span class="heart-number">3</span></button>
 
-        <button class="heart-btn" onclick="addDigit('4')">💗<span class="heart-number">4</span></button>
-        <button class="heart-btn" onclick="addDigit('5')">💗<span class="heart-number">5</span></button>
-        <button class="heart-btn" onclick="addDigit('6')">💗<span class="heart-number">6</span></button>
+        <button class="heart-btn" onclick="addDigit('1')">
+          💗
+          <span class="heart-number">1</span>
+        </button>
 
-        <button class="heart-btn" onclick="addDigit('7')">💗<span class="heart-number">7</span></button>
-        <button class="heart-btn" onclick="addDigit('8')">💗<span class="heart-number">8</span></button>
-        <button class="heart-btn" onclick="addDigit('9')">💗<span class="heart-number">9</span></button>
+        <button class="heart-btn" onclick="addDigit('2')">
+          💗
+          <span class="heart-number">2</span>
+        </button>
 
-        <button class="heart-btn" onclick="deleteLastDigit()">💞<span class="heart-number">-</span></button>
-        <button class="heart-btn" onclick="addDigit('0')">💗<span class="heart-number">0</span></button>
-        <button class="heart-btn" id="ok-btn" onclick="clearCode()">💘<span class="heart-number">✕</span></button>
+        <button class="heart-btn" onclick="addDigit('3')">
+          💗
+          <span class="heart-number">3</span>
+        </button>
+
+        <button class="heart-btn" onclick="addDigit('4')">
+          💗
+          <span class="heart-number">4</span>
+        </button>
+
+        <button class="heart-btn" onclick="addDigit('5')">
+          💗
+          <span class="heart-number">5</span>
+        </button>
+
+        <button class="heart-btn" onclick="addDigit('6')">
+          💗
+          <span class="heart-number">6</span>
+        </button>
+
+        <button class="heart-btn" onclick="addDigit('7')">
+          💗
+          <span class="heart-number">7</span>
+        </button>
+
+        <button class="heart-btn" onclick="addDigit('8')">
+          💗
+          <span class="heart-number">8</span>
+        </button>
+
+        <button class="heart-btn" onclick="addDigit('9')">
+          💗
+          <span class="heart-number">9</span>
+        </button>
+
+        <button class="heart-btn" onclick="deleteLastDigit()">
+          💞
+          <span class="heart-number">-</span>
+        </button>
+
+        <button class="heart-btn" onclick="addDigit('0')">
+          💗
+          <span class="heart-number">0</span>
+        </button>
+
+        <button class="heart-btn" id="ok-btn" onclick="clearCode()">
+          💘
+          <span class="heart-number">✕</span>
+        </button>
+
       </div>
 
       <div class="action-row">
-        <button class="action-btn" onclick="window.location.href='index.html'">можна повернутись?</button>
+        <button
+          class="action-btn"
+          onclick="window.location.href='index.html'"
+        >
+          можна повернутись?
+        </button>
       </div>
+
     </div>
   </div>
 
@@ -210,9 +337,11 @@
 
     function updateDisplay() {
       const hearts = [];
+
       for (let i = 0; i < 4; i++) {
         hearts.push(i < enteredCode.length ? '💖' : '♡');
       }
+
       display.textContent = hearts.join(' ');
     }
 
@@ -244,16 +373,18 @@
       if (enteredCode.length !== 4) return;
 
       if (enteredCode === CORRECT_CODE) {
+
         hint.textContent = 'правильно! 💖';
 
-        // Тут буде перехід на наступну сторінку.
-        // Заміни "next.html" на назву своєї наступної сторінки.
         setTimeout(() => {
           window.location.href = 'next.html';
         }, 800);
+
       } else {
+
         hint.textContent = 'неправильний код 🥺';
         gifImage.src = 'sad.gif';
+
         setTimeout(() => {
           gifImage.src = 'happy.gif';
           clearCode();
@@ -265,4 +396,3 @@
   </script>
 </body>
 </html>
-
